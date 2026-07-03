@@ -1,0 +1,224 @@
+.window {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.window.light {
+  background-color: #f3f3f3;
+  color: #202020;
+  border: 1px solid #e5e5e5;
+}
+
+.window.dark {
+  background-color: #202020;
+  color: #ffffff;
+  border: 1px solid #333333;
+}
+
+.titlebar {
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  user-select: none;
+}
+
+.titleLeft {
+  padding-left: 12px;
+  opacity: 0.8;
+}
+
+.titleRight {
+  display: flex;
+  height: 100%;
+}
+
+.winControl {
+  width: 46px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.1s;
+  cursor: pointer;
+}
+
+.light .winControl:hover { background-color: rgba(0, 0, 0, 0.05); }
+.dark .winControl:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+.winClose:hover {
+  background-color: #e81123 !important;
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 12px;
+}
+
+.menuToggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  transition: background-color 0.1s;
+}
+
+.light .menuToggle:hover { background-color: rgba(0, 0, 0, 0.04); }
+.dark .menuToggle:hover { background-color: rgba(255, 255, 255, 0.06); }
+
+.historyToggle {
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.light .historyToggle:hover { background-color: rgba(0, 0, 0, 0.04); }
+.dark .historyToggle:hover { background-color: rgba(255, 255, 255, 0.06); }
+
+.displayArea {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 16px 12px;
+  margin-bottom: 8px;
+}
+
+.equation {
+  font-size: 14px;
+  opacity: 0.6;
+  min-height: 20px;
+}
+
+.display {
+  font-size: 3rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.keypadWrapper {
+  padding: 0 4px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.memoryPad {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+
+.memBtn {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: inherit;
+}
+.memBtn:hover {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mainPad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.sciPad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.keypad.scientific {
+  transition: all 0.3s ease;
+}
+
+.btnNum, .btnSecondary, .btnAccent {
+  border: none;
+  font-family: inherit;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+  aspect-ratio: 1.3 / 1;
+}
+
+.btnNum {
+  font-size: 18px;
+  font-weight: 600;
+}
+.light .btnNum {
+  background-color: #ffffff;
+  color: #000000;
+}
+.light .btnNum:hover { background-color: #f9f9f9; }
+.light .btnNum:active { background-color: #f0f0f0; }
+
+.dark .btnNum {
+  background-color: #333333;
+  color: #ffffff;
+}
+.dark .btnNum:hover { background-color: #3b3b3b; }
+.dark .btnNum:active { background-color: #282828; }
+
+.btnSecondary {
+  font-size: 16px;
+}
+.light .btnSecondary {
+  background-color: #f3f3f3;
+  color: #000000;
+}
+.light .btnSecondary:hover { background-color: #e9e9e9; }
+.light .btnSecondary:active { background-color: #d9d9d9; }
+
+.dark .btnSecondary {
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+.dark .btnSecondary:hover { background-color: #323232; }
+.dark .btnSecondary:active { background-color: #282828; }
+
+.btnAccent {
+  font-size: 20px;
+  background-color: #0067c0;
+  color: #ffffff;
+}
+.btnAccent:hover { background-color: #005a9e; }
+.btnAccent:active { background-color: #004c87; }
+
+
+@media (min-width: 600px) {
+  .window:has(.sciPad) {
+    max-width: 500px;
+  }
+}

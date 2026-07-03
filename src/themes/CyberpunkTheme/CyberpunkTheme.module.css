@@ -1,0 +1,250 @@
+.wrapper {
+  width: 100%;
+  min-height: 100%;
+  background-color: #050510;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  z-index: 1;
+}
+
+.scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.25) 50%,
+    rgba(0,0,0,0.25)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.3;
+}
+
+.gridOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 1;
+  transform: perspective(500px) rotateX(60deg) scale(2);
+  transform-origin: bottom;
+  opacity: 0.2;
+}
+
+.calculator {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 380px;
+  background: rgba(10, 10, 20, 0.8);
+  border: 1px solid #ff00ff;
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.2), inset 0 0 20px rgba(255, 0, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #00ffff;
+  padding-bottom: 8px;
+}
+
+.brand {
+  color: #00ffff;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+.sciToggle {
+  background: transparent;
+  color: #ff00ff;
+  border: 1px solid #ff00ff;
+  padding: 4px 8px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-shadow: 0 0 5px #ff00ff;
+  box-shadow: inset 0 0 5px rgba(255, 0, 255, 0.3);
+}
+
+.sciToggle:hover, .sciToggle.active {
+  background: rgba(255, 0, 255, 0.2);
+  box-shadow: 0 0 10px #ff00ff, inset 0 0 10px #ff00ff;
+  color: #ffffff;
+}
+
+.displayArea {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: rgba(0, 20, 20, 0.8);
+  border: 1px solid #00ffff;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2);
+  min-height: 100px;
+  justify-content: flex-end;
+}
+
+.equation {
+  font-size: 1rem;
+  color: #ff00ff;
+  opacity: 0.8;
+  min-height: 1.5rem;
+  text-shadow: 0 0 5px #ff00ff;
+}
+
+.display {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite alternate;
+  animation-iteration-count: 1; /* Only run once per key change */
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) skew(0deg); opacity: 1; }
+  20% { transform: translate(-2px, 2px) skew(-5deg); opacity: 0.8; }
+  40% { transform: translate(2px, -2px) skew(5deg); opacity: 1; }
+  60% { transform: translate(-1px, 1px) skew(-2deg); opacity: 0.9; }
+  80% { transform: translate(1px, -1px) skew(2deg); opacity: 1; }
+  100% { transform: translate(0) skew(0deg); opacity: 1; }
+}
+
+.keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sciPad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.mainPad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.btn, .btnSci {
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid #00ffff;
+  color: #00ffff;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+  text-shadow: 0 0 5px #00ffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn {
+  aspect-ratio: 1.2;
+  font-size: 1.5rem;
+}
+
+.btnSci {
+  padding: 10px 0;
+  font-size: 0.85rem;
+  border-color: rgba(0, 255, 255, 0.4);
+}
+
+.btn:hover, .btnSci:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.btn:active, .btnSci:active {
+  background: #00ffff;
+  color: #000;
+  box-shadow: 0 0 25px #00ffff;
+}
+
+.btnSys {
+  border-color: #ff00ff;
+  color: #ff00ff;
+  text-shadow: 0 0 5px #ff00ff;
+  font-size: 1rem;
+}
+
+.btnSys:hover {
+  background: rgba(255, 0, 255, 0.2);
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5), inset 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.btnSys:active {
+  background: #ff00ff;
+  color: #000;
+  box-shadow: 0 0 25px #ff00ff;
+}
+
+.btnOp {
+  border-color: #ffff00;
+  color: #ffff00;
+  text-shadow: 0 0 5px #ffff00;
+}
+
+.btnOp:hover {
+  background: rgba(255, 255, 0, 0.2);
+  box-shadow: 0 0 15px rgba(255, 255, 0, 0.5), inset 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+.btnOp:active {
+  background: #ffff00;
+  color: #000;
+  box-shadow: 0 0 25px #ffff00;
+}
+
+.btnEq {
+  border-color: #00ff00;
+  color: #00ff00;
+  text-shadow: 0 0 5px #00ff00;
+  background: rgba(0, 255, 0, 0.1);
+  font-size: 1.1rem;
+}
+
+.btnEq:hover {
+  background: rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6), inset 0 0 15px rgba(0, 255, 0, 0.6);
+}
+
+.btnEq:active {
+  background: #00ff00;
+  color: #000;
+  box-shadow: 0 0 30px #00ff00;
+}
+
+@media (min-width: 600px) {
+  .calculator:has(.sciPad) {
+    max-width: 500px;
+  }
+}

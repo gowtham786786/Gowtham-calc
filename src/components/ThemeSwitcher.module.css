@@ -1,0 +1,125 @@
+.container {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px 16px;
+  width: 100%;
+}
+
+html.dark .container {
+  background-color: rgba(17, 24, 39, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.themeScroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px;
+  scrollbar-width: none; /* Firefox */
+}
+
+.themeScroll::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.themeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 64px;
+  padding: 6px;
+  border-radius: 12px;
+  color: #6b7280;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+html.dark .themeCard {
+  color: #9ca3af;
+}
+
+.themeCard:hover {
+  transform: translateY(-2px);
+  color: #1f2937;
+}
+html.dark .themeCard:hover {
+  color: #f9fafb;
+}
+
+.themeCard.active {
+  color: #1f2937;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+html.dark .themeCard.active {
+  color: #f9fafb;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.iconWrapper {
+  padding: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.themeCard.active .iconWrapper {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+html.dark .themeCard.active .iconWrapper {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Theme specific active colors */
+.themeCard.active .icon-apple { background: #f3f4f6; color: #000; }
+html.dark .themeCard.active .icon-apple { background: #374151; color: #fff; }
+
+.themeCard.active .icon-glass { background: linear-gradient(135deg, #a855f7, #ec4899); color: white; }
+.themeCard.active .icon-vscode { background: #007acc; color: white; }
+.themeCard.active .icon-windows { background: #0078D4; color: white; }
+.themeCard.active .icon-cyberpunk { background: #f0f; color: #0ff; text-shadow: 0 0 5px #0ff; box-shadow: 0 0 10px #f0f, inset 0 0 10px #f0f; }
+.themeCard.active .icon-ai { background: radial-gradient(circle, #6366f1, #3b82f6); color: white; box-shadow: 0 0 15px rgba(99, 102, 241, 0.5); }
+.themeCard.active .icon-retro { background: #d1d5db; color: #4b5563; border: 2px solid #9ca3af; }
+
+.label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.actionBtn {
+  padding: 8px;
+  border-radius: 50%;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+html.dark .actionBtn {
+  color: #9ca3af;
+}
+
+.actionBtn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #1f2937;
+}
+
+html.dark .actionBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f9fafb;
+}

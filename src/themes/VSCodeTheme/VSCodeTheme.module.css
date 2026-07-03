@@ -1,0 +1,258 @@
+.window {
+  background-color: #1e1e1e;
+  width: 100%;
+  max-width: 600px;
+  height: 80vh;
+  max-height: 600px;
+  border-radius: 8px;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 1px #333;
+  display: flex;
+  flex-direction: column;
+  font-family: 'JetBrains Mono', monospace;
+  color: #cccccc;
+  overflow: hidden;
+}
+
+.titlebar {
+  background-color: #323233;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  user-select: none;
+}
+
+.titleLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 10px;
+}
+
+.vsIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.titleRight {
+  display: flex;
+  height: 100%;
+}
+
+.winControl {
+  width: 46px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #cccccc;
+  transition: background-color 0.1s;
+  cursor: pointer;
+}
+
+.winControl:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.winClose:hover {
+  background-color: #e81123;
+  color: white;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 48px;
+  background-color: #333333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 12px;
+  gap: 16px;
+}
+
+.sideIcon {
+  color: #858585;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.sideIcon:hover {
+  color: #ffffff;
+}
+
+.mainArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  height: 35px;
+  background-color: #252526;
+}
+
+.tab {
+  background-color: #1e1e1e;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #ffffff;
+  border-top: 1px solid #007acc;
+  cursor: pointer;
+}
+
+.tsIcon {
+  color: #3178c6;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.tabEmpty {
+  flex: 1;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.editor {
+  padding: 16px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #1e1e1e;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  display: flex;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.lineNumber {
+  color: #858585;
+  width: 24px;
+  text-align: right;
+  user-select: none;
+}
+
+/* Syntax Highlighting */
+.keyword { color: #569cd6; } /* const */
+.variable { color: #9cdcfe; } /* result, equation */
+.operator { color: #d4d4d4; } /* = */
+.string { color: #ce9178; } /* "2+2" */
+.number { color: #b5cea8; } /* 4 */
+.punctuation { color: #cccccc; } /* ; */
+.comment { color: #6a9955; } /* // comment */
+
+.terminal {
+  background-color: #1e1e1e;
+  border-top: 1px solid #454545;
+  height: 55%;
+  display: flex;
+  flex-direction: column;
+}
+
+.termHeader {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  color: #858585;
+}
+
+.termHeader span:first-child {
+  color: #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 2px;
+}
+
+.keypadWrapper {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.keypad {
+  display: flex;
+  gap: 12px;
+  height: 100%;
+}
+
+.sciPad {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.mainPad {
+  flex: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.btn {
+  background-color: #333333;
+  color: #cccccc;
+  border: 1px solid #3c3c3c;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  font-family: inherit;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn:hover {
+  background-color: #444444;
+}
+
+.btn:active {
+  background-color: #2a2d2e;
+}
+
+/* Button syntax coloring */
+.btnNum {
+  color: #b5cea8;
+  font-size: 15px;
+}
+
+.btnOp {
+  color: #569cd6;
+  font-size: 15px;
+}
+
+.btnKeyword {
+  color: #c586c0; /* purple like control flow */
+}
+
+.btnFunc {
+  color: #dcdcaa; /* yellow-ish like function call */
+}
+
+.btnVar {
+  color: #4fc1ff; /* light blue */
+}
+
+.btnRun {
+  background-color: #0e639c;
+  color: #ffffff;
+  border-color: #1177bb;
+}
+.btnRun:hover {
+  background-color: #1177bb;
+}

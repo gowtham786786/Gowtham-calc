@@ -1,0 +1,152 @@
+.calculator {
+  background-color: #000000;
+  width: 100%;
+  max-width: 390px;
+  min-height: 760px;
+  border-radius: 40px;
+  padding: 0 30px 30px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 24px;
+  gap: 16px;
+}
+
+.sciToggle {
+  color: #a1a1a6;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sciToggle:hover, .sciToggle.active {
+  color: #ffffff;
+}
+
+.displayContainer {
+  flex: 0 0 35%;
+  min-height: 266px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0 8px 12px;
+  overflow: hidden;
+}
+
+.display {
+  font-weight: 300;
+  font-size: 88px;
+  letter-spacing: -1px;
+  white-space: nowrap;
+  transition: font-size 0.2s;
+}
+
+.keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: auto;
+}
+
+.mainPad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.sciPad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.btn {
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  font-size: 38px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: all .15s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+}
+
+.btnSci {
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #212121;
+  color: #ffffff;
+  font-size: 1.15rem;
+  border: none;
+  cursor: pointer;
+  transition: all .15s ease;
+  user-select: none;
+}
+.btnSci:active {
+  transform: scale(0.95);
+}
+.btnSci:hover {
+  filter: brightness(1.08);
+}
+
+.btnLightGray {
+  background-color: #A5A5A5;
+  color: #000000;
+  font-size: 32px;
+}
+
+.btnDarkGray {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.btnOrange {
+  background-color: #FF9F0A;
+  color: #ffffff;
+}
+
+.btnOrangeActive {
+  background-color: #ffffff;
+  color: #FF9F0A;
+}
+
+.zeroBtn {
+  grid-column: span 2;
+  aspect-ratio: auto;
+  border-radius: 999px;
+  justify-content: flex-start;
+  padding-left: 28px;
+}
+
+@media (max-width: 400px) {
+  .calculator {
+    padding: 0 16px 24px;
+  }
+}
