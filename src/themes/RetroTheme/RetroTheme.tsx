@@ -6,7 +6,7 @@ import type { ThemeProps } from '../../App';
 import styles from './RetroTheme.module.css';
 import { useFitText } from '../../hooks/useFitText';
 
-const RetroTheme: React.FC<ThemeProps> = ({ settings }) => {
+const RetroTheme: React.FC<ThemeProps> = () => {
   const calc = useCalculator('retro');
   const [showHistory, setShowHistory] = useState(false);
   const {

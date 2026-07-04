@@ -6,7 +6,7 @@ import styles from './AppleTheme.module.css';
 import { RotateCcw, History } from 'lucide-react';
 import { useFitText } from '../../hooks/useFitText';
 
-const AppleTheme: React.FC<ThemeProps> = ({ settings }) => {
+const AppleTheme: React.FC<ThemeProps> = () => {
   const calc = useCalculator('apple');
   const [showHistory, setShowHistory] = useState(false);
   const {

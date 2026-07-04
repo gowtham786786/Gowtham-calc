@@ -6,7 +6,7 @@ import styles from './VSCodeTheme.module.css';
 import { FileCode2, TerminalSquare, Minus, Square, X, History } from 'lucide-react';
 import { useFitText } from '../../hooks/useFitText';
 
-const VSCodeTheme: React.FC<ThemeProps> = ({ settings }) => {
+const VSCodeTheme: React.FC<ThemeProps> = () => {
   const calc = useCalculator('vscode');
   const [showHistory, setShowHistory] = useState(false);
   const {

@@ -15,7 +15,7 @@ const SUGGESTIONS = [
   "Calculating optimal path..."
 ];
 
-const AiTheme: React.FC<ThemeProps> = ({ settings }) => {
+const AiTheme: React.FC<ThemeProps> = () => {
   const calc = useCalculator('ai');
   const [showHistory, setShowHistory] = useState(false);
   const {

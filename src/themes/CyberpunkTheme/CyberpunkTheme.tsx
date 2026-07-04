@@ -6,7 +6,7 @@ import type { ThemeProps } from '../../App';
 import styles from './CyberpunkTheme.module.css';
 import { useFitText } from '../../hooks/useFitText';
 
-const CyberpunkTheme: React.FC<ThemeProps> = ({ settings }) => {
+const CyberpunkTheme: React.FC<ThemeProps> = () => {
   const calc = useCalculator('cyberpunk');
   const [showHistory, setShowHistory] = useState(false);
   const {
