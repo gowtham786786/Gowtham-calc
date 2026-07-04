@@ -132,6 +132,17 @@
   flex-direction: column;
 }
 
+.displayContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding-right: 16px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
 .line {
   display: flex;
   padding: 0 16px;

@@ -3,7 +3,8 @@ import { useCalculator } from '../../hooks/useCalculator';
 import VSCodeHistory from './VSCodeHistory';
 import type { ThemeProps } from '../../App';
 import styles from './VSCodeTheme.module.css';
-import { FileCode2, TerminalSquare, Minus, Square, X , History} from 'lucide-react';
+import { FileCode2, TerminalSquare, Minus, Square, X, History } from 'lucide-react';
+import { useFitText } from '../../hooks/useFitText';
 
 const VSCodeTheme: React.FC<ThemeProps> = ({ settings }) => {
   const calc = useCalculator('vscode');
@@ -17,6 +18,9 @@ const VSCodeTheme: React.FC<ThemeProps> = ({ settings }) => {
     handleOperator,
     handleAction,
   } = calc;
+
+  const formatDisplay = (val: string) => val;
+  const { containerRef, textRef, fontSize, renderedValue } = useFitText(displayValue, 56, 28, formatDisplay);
 
   return (
     <div className={styles.window}>
@@ -38,6 +42,9 @@ const VSCodeTheme: React.FC<ThemeProps> = ({ settings }) => {
           <div className={styles.sideIcon} onClick={() => setIsScientific(!isScientific)} title="Toggle Scientific">
             <TerminalSquare size={24} />
           </div>
+          <div className={styles.sideIcon} onClick={() => setShowHistory(true)} title="History">
+            <History size={24} />
+          </div>
         </div>
         
         <div className={styles.mainArea}>
@@ -50,20 +57,20 @@ const VSCodeTheme: React.FC<ThemeProps> = ({ settings }) => {
           </div>
           
           <div className={styles.editor}>
-            <div className={styles.line}>
-              <span className={styles.lineNumber}>1</span>
-              <span className={styles.keyword}>const</span> <span className={styles.variable}>equation</span> <span className={styles.operator}>=</span> <span className={styles.string}>"{equation || ' '}"</span><span className={styles.punctuation}>;</span>
-            </div>
-            <div className={styles.line}>
-              <span className={styles.lineNumber}>2</span>
-              <span className={styles.keyword}>const</span> <span className={styles.variable}>result</span> <span className={styles.operator}>=</span> <span className={styles.number}>{displayValue}</span><span className={styles.punctuation}>;</span>
-            </div>
-            <div className={styles.line}>
-              <span className={styles.lineNumber}>3</span>
-            </div>
-            <div className={styles.line}>
-              <span className={styles.lineNumber}>4</span>
-              <span className={styles.comment}>// Use the interface below to calculate</span>
+            <div className={styles.displayArea}>
+              <div className={styles.lineNumbers}>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+              </div>
+              <div className={styles.displayContent} ref={containerRef}>
+                <div className={styles.line}>
+                  <span className={styles.keyword}>const</span> <span className={styles.variable}>equation</span> <span className={styles.operator}>=</span> <span className={styles.string}>"{equation || ' '}"</span><span className={styles.punctuation}>;</span>
+                </div>
+                <div className={styles.line}>
+                  <span className={styles.keyword}>const</span> <span className={styles.variable}>result</span> <span className={styles.operator}>=</span> <span className={styles.number} ref={textRef} style={{ fontSize: `${fontSize}px` }}>{renderedValue}</span><span className={styles.punctuation}>;</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -129,7 +136,13 @@ const VSCodeTheme: React.FC<ThemeProps> = ({ settings }) => {
           </div>
         </div>
       </div>
-      <VSCodeHistory history={calc.history} onClear={calc.clearHistory} onClose={() => setShowHistory(false)} isVisible={showHistory} />
+      <VSCodeHistory 
+        history={calc.history.filter(h => h.theme === 'vscode')} 
+        onClear={calc.clearHistory} 
+        onClose={() => setShowHistory(false)} 
+        isVisible={showHistory} 
+        onReuse={calc.loadResult}
+      />
     </div>
   );
 };

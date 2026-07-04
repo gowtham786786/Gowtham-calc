@@ -3,7 +3,8 @@ import { useCalculator } from '../../hooks/useCalculator';
 import GlassHistory from './GlassHistory';
 import type { ThemeProps } from '../../App';
 import styles from './GlassTheme.module.css';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, History } from 'lucide-react';
+import { useFitText } from '../../hooks/useFitText';
 
 const GlassTheme: React.FC<ThemeProps> = ({ settings }) => {
   const calc = useCalculator('glass');
@@ -28,6 +29,8 @@ const GlassTheme: React.FC<ThemeProps> = ({ settings }) => {
     return parts.join('.');
   };
 
+  const { containerRef, textRef, fontSize, renderedValue } = useFitText(displayValue, 72, 32, formatDisplay);
+
   return (
     <div className={`${styles.wrapper} ${isDark ? styles.dark : styles.light}`}>
       <div className={styles.blob1}></div>
@@ -35,18 +38,33 @@ const GlassTheme: React.FC<ThemeProps> = ({ settings }) => {
       <div className={styles.blob3}></div>
 
       <div className={styles.calculator}>
-        <div className={styles.displayArea}>
+        <div className={styles.displayArea} ref={containerRef} style={{ maxWidth: '100%' }}>
           <div className={styles.equation}>{equation}</div>
-          <div className={styles.display}>{formatDisplay(displayValue)}</div>
+          <div 
+            className={styles.display} 
+            ref={textRef}
+            style={{ fontSize: `${fontSize}px` }}
+          >
+            {renderedValue}
+          </div>
         </div>
 
-        <button 
-          className={styles.sciToggleBtn} 
-          onClick={() => setIsScientific(!isScientific)}
-        >
-          {isScientific ? 'Hide Advanced' : 'Show Advanced'}
-          {isScientific ? <ChevronUp size={16}/> : <ChevronDown size={16}/>}
-        </button>
+        <div className={styles.controls}>
+          <button 
+            className={styles.sciToggleBtn} 
+            onClick={() => setIsScientific(!isScientific)}
+          >
+            {isScientific ? 'Hide Advanced' : 'Show Advanced'}
+            {isScientific ? <ChevronUp size={16}/> : <ChevronDown size={16}/>}
+          </button>
+          <button 
+            className={styles.sciToggleBtn} 
+            onClick={() => setShowHistory(true)}
+            title="History"
+          >
+            <History size={16}/> History
+          </button>
+        </div>
 
         <div className={styles.keypad}>
           {isScientific && (
@@ -111,7 +129,13 @@ const GlassTheme: React.FC<ThemeProps> = ({ settings }) => {
           </div>
         </div>
       </div>
-      <GlassHistory history={calc.history} onClear={calc.clearHistory} onClose={() => setShowHistory(false)} isVisible={showHistory} />
+      <GlassHistory 
+        history={calc.history.filter(h => h.theme === 'glass')} 
+        onClear={calc.clearHistory} 
+        onClose={() => setShowHistory(false)} 
+        isVisible={showHistory} 
+        onReuse={calc.loadResult}
+      />
     </div>
   );
 };

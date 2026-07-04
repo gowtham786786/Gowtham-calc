@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { History } from 'lucide-react';
 import type { ThemeProps } from '../../App';
 import styles from './CyberpunkTheme.module.css';
+import { useFitText } from '../../hooks/useFitText';
 
 const CyberpunkTheme: React.FC<ThemeProps> = ({ settings }) => {
   const calc = useCalculator('cyberpunk');
@@ -32,6 +33,8 @@ const CyberpunkTheme: React.FC<ThemeProps> = ({ settings }) => {
     return parts.join('.');
   };
 
+  const { containerRef, textRef, fontSize, renderedValue } = useFitText(displayValue, 56, 24, formatDisplay);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.scanlines}></div>
@@ -51,10 +54,10 @@ const CyberpunkTheme: React.FC<ThemeProps> = ({ settings }) => {
           </button>
         </div>
 
-        <div className={styles.displayArea}>
+        <div className={styles.displayArea} ref={containerRef}>
           <div className={styles.equation}>{equation}</div>
-          <div key={glitchKey} className={styles.display}>
-            {formatDisplay(displayValue)}
+          <div key={glitchKey} className={styles.display} ref={textRef} style={{ fontSize: `${fontSize}px` }}>
+            {renderedValue}
           </div>
         </div>
 
@@ -111,7 +114,13 @@ const CyberpunkTheme: React.FC<ThemeProps> = ({ settings }) => {
           </div>
         </div>
       </div>
-      <CyberpunkHistory history={calc.history} onClear={calc.clearHistory} onClose={() => setShowHistory(false)} isVisible={showHistory} />
+      <CyberpunkHistory 
+        history={calc.history.filter(h => h.theme === 'cyberpunk')} 
+        onClear={calc.clearHistory} 
+        onClose={() => setShowHistory(false)} 
+        isVisible={showHistory} 
+        onReuse={calc.loadResult}
+      />
     </div>
   );
 };

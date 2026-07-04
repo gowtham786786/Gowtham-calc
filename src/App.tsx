@@ -3,6 +3,7 @@ import { useCalculator } from './hooks/useCalculator';
 import { useSettings } from './hooks/useSettings';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import SettingsPanel from './components/SettingsPanel';
+import HistoryPanel from './components/HistoryPanel';
 // Theme imports (we will build these next)
 import AppleTheme from './themes/AppleTheme/AppleTheme';
 import GlassTheme from './themes/GlassmorphismTheme/GlassTheme';
@@ -21,6 +22,8 @@ export interface ThemeProps {
 function App() {
   const settings = useSettings();
   const [showSettings, setShowSettings] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const globalCalc = useCalculator('global');
   // Audio utility
   useEffect(() => {
     if (!settings.soundEnabled) return;
@@ -71,7 +74,8 @@ return (
         activeTheme={settings.activeTheme} 
         onSelectTheme={settings.changeTheme} 
         onOpenSettings={() => setShowSettings(true)}
-        />
+        onOpenHistory={() => setShowHistory(true)}
+      />
 
       <div className="theme-container">
         <ThemeWrapper currentTheme="apple" activeTheme={settings.activeTheme}>
@@ -107,6 +111,14 @@ return (
         <SettingsPanel 
           settings={settings} 
           onClose={() => setShowSettings(false)} 
+        />
+      )}
+
+      {showHistory && (
+        <HistoryPanel 
+          history={globalCalc.history}
+          onClear={globalCalc.clearHistory}
+          onClose={() => setShowHistory(false)} 
         />
       )}
 

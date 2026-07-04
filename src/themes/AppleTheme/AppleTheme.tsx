@@ -3,7 +3,8 @@ import { useCalculator } from '../../hooks/useCalculator';
 import AppleHistory from './AppleHistory';
 import type { ThemeProps } from '../../App';
 import styles from './AppleTheme.module.css';
-import { RotateCcw , History} from 'lucide-react';
+import { RotateCcw, History } from 'lucide-react';
+import { useFitText } from '../../hooks/useFitText';
 
 const AppleTheme: React.FC<ThemeProps> = ({ settings }) => {
   const calc = useCalculator('apple');
@@ -35,30 +36,34 @@ const AppleTheme: React.FC<ThemeProps> = ({ settings }) => {
   };
   const activeOp = getActiveOperator();
 
+  const { containerRef, textRef, fontSize, renderedValue } = useFitText(displayValue, 96, 40, formatDisplay);
+
   return (
-    <div className={styles.calculator}>
-      <div className={styles.header}>
+    <div className={styles.wrapper}>
+      <div className={styles.tools}>
         <button 
-          className={`${styles.sciToggle} ${isScientific ? styles.active : ''}`}
+          className={`${styles.toolBtn} ${isScientific ? styles.active : ''}`}
           onClick={() => setIsScientific(!isScientific)}
           title="Toggle Scientific Mode"
         >
-          <RotateCcw size={16} />
+          <RotateCcw size={18} />
         </button>
       
-        <button className={styles.sciToggle} onClick={() => setShowHistory(true)} title="History">
-          <History size={16} />
+        <button className={styles.toolBtn} onClick={() => setShowHistory(true)} title="History">
+          <History size={18} />
         </button>
       </div>
 
-      <div className={styles.displayContainer}>
-        <div 
-          className={styles.display} 
-          style={{ fontSize: displayValue.length > 8 ? '2.5rem' : '4rem' }}
-        >
-          {formatDisplay(displayValue)}
+      <div className={styles.calculator}>
+        <div className={styles.displayContainer} ref={containerRef}>
+          <div 
+            className={styles.display} 
+            ref={textRef}
+            style={{ fontSize: `${fontSize}px` }}
+          >
+            {renderedValue}
+          </div>
         </div>
-      </div>
 
         <div className={`${styles.keypad} ${isScientific ? styles.scientific : ''}`}>
           {isScientific && (
@@ -113,11 +118,13 @@ const AppleTheme: React.FC<ThemeProps> = ({ settings }) => {
           <button className={`${styles.btn} ${styles.btnOrange}`} onClick={() => handleAction('=')}>=</button>
         </div>
       </div>
+      </div>
       <AppleHistory 
-        history={calc.history} 
+        history={calc.history.filter((h) => h.theme === 'apple')} 
         onClear={calc.clearHistory} 
         onClose={() => setShowHistory(false)} 
         isVisible={showHistory} 
+        onReuse={calc.loadResult}
       />
     </div>
   );

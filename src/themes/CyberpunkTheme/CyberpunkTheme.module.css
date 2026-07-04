@@ -121,6 +121,9 @@
   font-weight: 700;
   color: #00ffff;
   text-shadow: 0 0 10px #00ffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite alternate;
   animation-iteration-count: 1; /* Only run once per key change */
 }

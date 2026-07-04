@@ -86,6 +86,12 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.historyItem:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .historyItem:last-child {

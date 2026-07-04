@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export type HistoryEntry = {
+  id: string;
   equation: string;
   result: string;
+  theme: string;
+  timestamp: number;
 };
 
 export function useCalculator(themeId: string = 'default') {
@@ -17,7 +20,6 @@ export function useCalculator(themeId: string = 'default') {
   // Load state from local storage on mount or theme switch
   useEffect(() => {
     const savedMemory = localStorage.getItem(`calc_memory_${themeId}`);
-    const savedHistory = localStorage.getItem(`calc_history_${themeId}`);
     
     if (savedMemory) {
       setMemory(parseFloat(savedMemory));
@@ -25,15 +27,23 @@ export function useCalculator(themeId: string = 'default') {
       setMemory(0);
     }
     
-    if (savedHistory) {
-      try {
-        setHistory(JSON.parse(savedHistory));
-      } catch (e) {
+    const loadGlobalHistory = () => {
+      const savedHistory = localStorage.getItem('calc_history_global');
+      if (savedHistory) {
+        try {
+          setHistory(JSON.parse(savedHistory));
+        } catch (e) {
+          setHistory([]);
+        }
+      } else {
         setHistory([]);
       }
-    } else {
-      setHistory([]);
-    }
+    };
+
+    loadGlobalHistory();
+
+    window.addEventListener('calc_history_update', loadGlobalHistory);
+    return () => window.removeEventListener('calc_history_update', loadGlobalHistory);
   }, [themeId]);
 
   const saveMemory = (val: number) => {
@@ -42,14 +52,19 @@ export function useCalculator(themeId: string = 'default') {
   };
 
   const saveHistory = (newHistory: HistoryEntry[]) => {
-    const trimmed = newHistory.slice(0, 20); // Keep last 20
+    const trimmed = newHistory.slice(0, 100); // Keep last 100 entries globally
     setHistory(trimmed);
-    localStorage.setItem(`calc_history_${themeId}`, JSON.stringify(trimmed));
+    localStorage.setItem('calc_history_global', JSON.stringify(trimmed));
+    window.dispatchEvent(new Event('calc_history_update'));
   };
 
   const clearHistory = () => {
-    setHistory([]);
-    localStorage.removeItem(`calc_history_${themeId}`);
+    const globalHistStr = localStorage.getItem('calc_history_global');
+    let currentGlobal = globalHistStr ? JSON.parse(globalHistStr) : [];
+    const newHistory = currentGlobal.filter((item: HistoryEntry) => item.theme !== themeId);
+    setHistory(newHistory);
+    localStorage.setItem('calc_history_global', JSON.stringify(newHistory));
+    window.dispatchEvent(new Event('calc_history_update'));
   };
 
   const handleNumber = useCallback((numStr: string) => {
@@ -142,8 +157,11 @@ export function useCalculator(themeId: string = 'default') {
       let resultStr = parseFloat(result.toFixed(10)).toString(); // Fix floating point issues
       
       const newEntry = {
+        id: crypto.randomUUID(),
         equation: exprTokens.join(' ') + ' =',
-        result: resultStr
+        result: resultStr,
+        theme: themeId,
+        timestamp: Date.now()
       };
       
       setDisplayValue(resultStr);
@@ -243,6 +261,12 @@ export function useCalculator(themeId: string = 'default') {
     }
   }, [displayValue, equation, memory, hasError, calculate, newNumber]);
 
+  const loadResult = useCallback((val: string) => {
+    if (hasError) return;
+    setDisplayValue(val);
+    setNewNumber(false);
+  }, [hasError]);
+
   // Handle keyboard input
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -278,6 +302,7 @@ export function useCalculator(themeId: string = 'default') {
     handleNumber,
     handleOperator,
     handleAction,
-    clearHistory
+    clearHistory,
+    loadResult
   };
 }

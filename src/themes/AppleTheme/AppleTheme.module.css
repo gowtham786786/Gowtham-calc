@@ -13,28 +13,46 @@
   box-sizing: border-box;
 }
 
-.header {
+.wrapper {
+  width: 100%;
+  min-height: 100%;
   display: flex;
-  justify-content: flex-start;
-  padding-top: 24px;
-  gap: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-.sciToggle {
+.tools {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
+.toolBtn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #a1a1a6;
-  background: transparent;
-  padding: 0;
-  border: none;
-  cursor: pointer;
-  transition: all 0.15s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(10px);
 }
 
-.sciToggle:hover, .sciToggle.active {
+.toolBtn:hover, .toolBtn.active {
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
+
+
 
 .displayContainer {
   flex: 0 0 35%;
@@ -44,6 +62,7 @@
   align-items: flex-end;
   padding: 0 8px 12px;
   overflow: hidden;
+  max-width: 100%;
 }
 
 .display {
@@ -51,6 +70,8 @@
   font-size: 88px;
   letter-spacing: -1px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: font-size 0.2s;
 }
 

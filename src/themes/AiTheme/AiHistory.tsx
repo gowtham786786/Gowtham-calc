@@ -8,9 +8,10 @@ interface AiHistoryProps {
   onClear: () => void;
   onClose: () => void;
   isVisible: boolean;
+  onReuse: (result: string) => void;
 }
 
-const AiHistory: React.FC<AiHistoryProps> = ({ history, onClear, onClose, isVisible }) => {
+const AiHistory: React.FC<AiHistoryProps> = ({ history, onClear, onClose, isVisible, onReuse }) => {
   return (
     <div className={`${styles.panel} ${isVisible ? styles.visible : ''}`}>
       <div className={styles.header}>
@@ -27,10 +28,10 @@ const AiHistory: React.FC<AiHistoryProps> = ({ history, onClear, onClose, isVisi
       
       <div className={styles.content}>
         {history.length === 0 ? (
-          <div className={styles.empty}>Neural pathways clear</div>
+          <div className={styles.empty}>No calculations yet in this theme</div>
         ) : (
           history.map((item, i) => (
-            <div key={i} className={styles.historyItem}>
+            <div key={item.id || i} className={styles.historyItem} onClick={() => { onReuse(item.result); onClose(); }}>
               <div className={styles.equation}>{item.equation}</div>
               <div className={styles.result}>{item.result}</div>
             </div>

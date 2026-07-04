@@ -3,7 +3,8 @@ import { useCalculator } from '../../hooks/useCalculator';
 import AiHistory from './AiHistory';
 import type { ThemeProps } from '../../App';
 import styles from './AiTheme.module.css';
-import { Sparkles, Wand2 , History} from 'lucide-react';
+import { Sparkles, Wand2, History } from 'lucide-react';
+import { useFitText } from '../../hooks/useFitText';
 
 const SUGGESTIONS = [
   "Try: 15% of 200",
@@ -48,6 +49,8 @@ const AiTheme: React.FC<ThemeProps> = ({ settings }) => {
     return parts.join('.');
   };
 
+  const { containerRef, textRef, fontSize, renderedValue } = useFitText(displayValue, 56, 26, formatDisplay);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.ambientBackground}></div>
@@ -69,9 +72,15 @@ const AiTheme: React.FC<ThemeProps> = ({ settings }) => {
           </button>
         </div>
 
-        <div className={styles.displayArea}>
+        <div className={styles.displayArea} ref={containerRef}>
           <div className={styles.equation}>{equation}</div>
-          <div className={styles.display}>{formatDisplay(displayValue)}</div>
+          <div 
+            className={styles.display} 
+            ref={textRef}
+            style={{ fontSize: `${fontSize}px` }}
+          >
+            {renderedValue}
+          </div>
           
           <div className={styles.suggestionLine}>
             <Sparkles size={12} className={styles.sparkleIcon} />
@@ -132,7 +141,13 @@ const AiTheme: React.FC<ThemeProps> = ({ settings }) => {
           </div>
         </div>
       </div>
-      <AiHistory history={calc.history} onClear={calc.clearHistory} onClose={() => setShowHistory(false)} isVisible={showHistory} />
+      <AiHistory 
+        history={calc.history.filter(h => h.theme === 'ai')} 
+        onClear={calc.clearHistory} 
+        onClose={() => setShowHistory(false)} 
+        isVisible={showHistory} 
+        onReuse={calc.loadResult}
+      />
     </div>
   );
 };

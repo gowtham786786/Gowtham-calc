@@ -4,6 +4,7 @@ import RetroHistory from './RetroHistory';
 import { History } from 'lucide-react';
 import type { ThemeProps } from '../../App';
 import styles from './RetroTheme.module.css';
+import { useFitText } from '../../hooks/useFitText';
 
 const RetroTheme: React.FC<ThemeProps> = ({ settings }) => {
   const calc = useCalculator('retro');
@@ -26,6 +27,8 @@ const RetroTheme: React.FC<ThemeProps> = ({ settings }) => {
     return parts.join('.');
   };
 
+  const { containerRef, textRef, fontSize, renderedValue } = useFitText(displayValue, 51, 24, formatDisplay);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.calculator}>
@@ -37,9 +40,15 @@ const RetroTheme: React.FC<ThemeProps> = ({ settings }) => {
         </div>
 
         <div className={styles.displayArea}>
-          <div className={styles.displayInner}>
+          <div className={styles.displayInner} ref={containerRef}>
             <div className={styles.equation}>{equation || ' '}</div>
-            <div className={styles.display}>{formatDisplay(displayValue)}</div>
+            <div 
+              className={styles.display} 
+              ref={textRef}
+              style={{ fontSize: `${fontSize}px` }}
+            >
+              {renderedValue}
+            </div>
           </div>
         </div>
 
@@ -113,7 +122,13 @@ const RetroTheme: React.FC<ThemeProps> = ({ settings }) => {
           </div>
         </div>
       </div>
-      <RetroHistory history={calc.history} onClear={calc.clearHistory} onClose={() => setShowHistory(false)} isVisible={showHistory} />
+      <RetroHistory 
+        history={calc.history.filter(h => h.theme === 'retro')} 
+        onClear={calc.clearHistory} 
+        onClose={() => setShowHistory(false)} 
+        isVisible={showHistory} 
+        onReuse={calc.loadResult}
+      />
     </div>
   );
 };

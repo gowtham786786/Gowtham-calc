@@ -84,6 +84,12 @@
   align-items: flex-end;
   gap: 8px;
   font-family: 'Courier New', Courier, monospace;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.historyItem:hover {
+  background: rgba(255, 0, 255, 0.1);
 }
 
 .historyItem:last-child {

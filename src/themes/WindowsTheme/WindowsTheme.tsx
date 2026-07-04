@@ -4,6 +4,7 @@ import WindowsHistory from './WindowsHistory';
 import type { ThemeProps } from '../../App';
 import styles from './WindowsTheme.module.css';
 import { Menu, History, Square, X, Minus } from 'lucide-react';
+import { useFitText } from '../../hooks/useFitText';
 
 const WindowsTheme: React.FC<ThemeProps> = ({ settings }) => {
   const calc = useCalculator('windows');
@@ -27,6 +28,8 @@ const WindowsTheme: React.FC<ThemeProps> = ({ settings }) => {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return parts.join('.');
   };
+
+  const { containerRef, textRef, fontSize, renderedValue } = useFitText(displayValue, 64, 32, formatDisplay);
 
   return (
     <div className={`${styles.window} ${isDark ? styles.dark : styles.light}`}>
@@ -52,10 +55,14 @@ const WindowsTheme: React.FC<ThemeProps> = ({ settings }) => {
         </div>
       </div>
 
-      <div className={styles.displayArea}>
+      <div className={styles.displayArea} ref={containerRef}>
         <div className={styles.equation}>{equation}</div>
-        <div className={styles.display} style={{ fontSize: displayValue.length > 12 ? '2rem' : '3rem' }}>
-          {formatDisplay(displayValue)}
+        <div 
+          className={styles.display} 
+          ref={textRef} 
+          style={{ fontSize: `${fontSize}px` }}
+        >
+          {renderedValue}
         </div>
       </div>
 
@@ -124,7 +131,13 @@ const WindowsTheme: React.FC<ThemeProps> = ({ settings }) => {
           </div>
         </div>
       </div>
-      <WindowsHistory history={calc.history} onClear={calc.clearHistory} onClose={() => setShowHistory(false)} isVisible={showHistory} />
+      <WindowsHistory 
+        history={calc.history.filter(h => h.theme === 'windows')} 
+        onClear={calc.clearHistory} 
+        onClose={() => setShowHistory(false)} 
+        isVisible={showHistory} 
+        onReuse={calc.loadResult}
+      />
     </div>
   );
 };
