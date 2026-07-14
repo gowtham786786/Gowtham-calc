@@ -1,0 +1,496 @@
+/* Styling for the decoupled calculator Voice Assistant widget */
+
+/* Root/Theme tokens mappings */
+
+/* 1. Apple Theme Colors */
+.voice-assistant-theme-apple {
+  --mic-bg: #1c1c1e;
+  --mic-color: #ffffff;
+  --mic-active-bg: #ff9f0a;
+  --mic-active-color: #ffffff;
+  --mic-pulse-color: rgba(255, 159, 10, 0.4);
+  --mic-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mic-border: none;
+  --mic-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --mic-text-color: #a1a1a6;
+  --mic-accent-color: #ff9f0a;
+  --mic-container-bg: transparent;
+}
+
+/* 2. Glassmorphism Theme Colors */
+.voice-assistant-theme-glass {
+  --mic-bg: rgba(255, 255, 255, 0.15);
+  --mic-color: inherit;
+  --mic-active-bg: linear-gradient(135deg, #a855f7, #ec4899);
+  --mic-active-color: #ffffff;
+  --mic-pulse-color: rgba(236, 72, 153, 0.4);
+  --mic-font-family: 'Inter', sans-serif;
+  --mic-border: 1px solid rgba(255, 255, 255, 0.2);
+  --mic-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --mic-text-color: inherit;
+  --mic-accent-color: #ec4899;
+  --mic-container-bg: transparent;
+}
+
+/* 3. VS Code Theme Colors */
+.voice-assistant-theme-vscode {
+  --mic-bg: #2d2d2d;
+  --mic-color: #d4d4d4;
+  --mic-active-bg: #0e639c;
+  --mic-active-color: #ffffff;
+  --mic-pulse-color: rgba(14, 99, 156, 0.4);
+  --mic-font-family: 'JetBrains Mono', Consolas, monospace;
+  --mic-border: 1px solid #3c3c3c;
+  --mic-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  --mic-text-color: #858585;
+  --mic-accent-color: #0e639c;
+  --mic-container-bg: transparent;
+}
+
+/* 4. Windows 11 Theme Colors */
+.voice-assistant-theme-windows {
+  --mic-bg: rgba(0, 0, 0, 0.06);
+  --mic-color: inherit;
+  --mic-active-bg: #0067b8;
+  --mic-active-color: #ffffff;
+  --mic-pulse-color: rgba(0, 103, 184, 0.4);
+  --mic-font-family: "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  --mic-border: 1px solid rgba(0, 0, 0, 0.1);
+  --mic-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --mic-text-color: inherit;
+  --mic-accent-color: #0067b8;
+  --mic-container-bg: transparent;
+}
+.dark .voice-assistant-theme-windows {
+  --mic-bg: rgba(255, 255, 255, 0.06);
+  --mic-border: 1px solid rgba(255, 255, 255, 0.08);
+  --mic-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 5. Cyberpunk Theme Colors */
+.voice-assistant-theme-cyberpunk {
+  --mic-bg: rgba(10, 10, 20, 0.8);
+  --mic-color: #00ffff;
+  --mic-active-bg: #ff00ff;
+  --mic-active-color: #050510;
+  --mic-pulse-color: rgba(255, 0, 255, 0.5);
+  --mic-font-family: 'Orbitron', sans-serif;
+  --mic-border: 1px solid #00ffff;
+  --mic-shadow: 0 0 15px rgba(0, 255, 255, 0.4), inset 0 0 5px rgba(0, 255, 255, 0.2);
+  --mic-text-color: #00ffff;
+  --mic-accent-color: #ff00ff;
+  --mic-container-bg: rgba(5, 5, 16, 0.4);
+}
+
+/* 6. AI Smart Theme Colors */
+.voice-assistant-theme-ai {
+  --mic-bg: rgba(15, 17, 30, 0.6);
+  --mic-color: #818cf8;
+  --mic-active-bg: #6366f1;
+  --mic-active-color: #ffffff;
+  --mic-pulse-color: rgba(99, 102, 241, 0.4);
+  --mic-font-family: 'Inter', system-ui, sans-serif;
+  --mic-border: 1px solid rgba(255, 255, 255, 0.06);
+  --mic-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --mic-text-color: #a5b4fc;
+  --mic-accent-color: #6366f1;
+  --mic-container-bg: transparent;
+}
+
+/* 7. Retro Classic Theme Colors */
+.voice-assistant-theme-retro {
+  --mic-bg: #dfd8cd;
+  --mic-color: #333333;
+  --mic-active-bg: #4a6b5d;
+  --mic-active-color: #dfd8cd;
+  --mic-pulse-color: rgba(74, 107, 93, 0.5);
+  --mic-font-family: 'Courier New', Courier, monospace;
+  --mic-border: 2px solid #b5afa3;
+  --mic-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3), inset -1px -1px 3px rgba(0, 0, 0, 0.1), inset 1px 1px 3px rgba(255, 255, 255, 0.8);
+  --mic-text-color: #333333;
+  --mic-accent-color: #4a6b5d;
+  --mic-container-bg: transparent;
+}
+
+
+/* Layout Positioning Rules */
+
+.voice-assistant-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 45; /* above themes but below global settings/modals */
+}
+
+/* Positioner to align with centered calculator card */
+.voice-assistant-positioner {
+  position: relative;
+  width: 100%;
+  max-width: 380px; /* same as typical calculator card */
+  height: 760px; /* same as typical calculator card */
+  pointer-events: none;
+}
+
+.voice-assistant-container {
+  pointer-events: auto;
+  position: fixed;
+  bottom: 30px;
+  left: 30px; /* float to the bottom left side of the viewport/overlay */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: var(--mic-container-bg);
+  padding: 8px;
+  border-radius: 20px;
+}
+
+/* Circular mic button core styles */
+.voice-assistant-button {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: var(--mic-border);
+  background: var(--mic-bg);
+  color: var(--mic-color);
+  box-shadow: var(--mic-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.voice-assistant-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: scale(1.05);
+}
+
+.voice-assistant-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.voice-assistant-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Circular help button styles */
+.voice-assistant-help-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: var(--mic-border);
+  background: var(--mic-bg);
+  color: var(--mic-color);
+  box-shadow: var(--mic-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.voice-assistant-help-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: scale(1.05);
+  color: var(--mic-accent-color);
+}
+
+.voice-assistant-help-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+/* Micro-animations and states */
+
+/* 1. Listening State (Pulsing expanding waves) */
+.voice-assistant-button[data-state="listening"] {
+  background: var(--mic-active-bg);
+  color: var(--mic-active-color);
+}
+
+.voice-assistant-button[data-state="listening"]::before,
+.voice-assistant-button[data-state="listening"]::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--mic-pulse-color);
+  animation: pulse-wave 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  pointer-events: none;
+}
+
+.voice-assistant-button[data-state="listening"]::after {
+  animation-delay: 0.5s;
+}
+
+@keyframes pulse-wave {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* 2. Processing State (Spinning loader) */
+.voice-assistant-button[data-state="processing"] {
+  cursor: wait;
+}
+.voice-assistant-button[data-state="processing"] .mic-icon {
+  animation: spin-icon 1s linear infinite;
+}
+
+@keyframes spin-icon {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 3. Speaking State (Rhythmic bounce height highlight) */
+.voice-assistant-button[data-state="speaking"] {
+  background: var(--mic-active-bg);
+  color: var(--mic-active-color);
+  animation: speak-bounce 0.8s ease infinite alternate;
+}
+
+@keyframes speak-bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+/* 4. Error State (Vigorous shake + red background) */
+.voice-assistant-button[data-state="error"] {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.5) !important;
+  animation: error-shake 0.4s ease;
+}
+
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Status / Transcript Text Box styling */
+.voice-assistant-status-box {
+  width: 140px;
+  text-align: center;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 4px;
+}
+
+.voice-assistant-hint-text {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.7;
+  color: var(--mic-text-color);
+}
+
+.voice-assistant-transcript-text {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--mic-text-color);
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.voice-assistant-error-text {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.voice-assistant-unsupported-text {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  color: var(--mic-text-color);
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  /* On tablets and smaller viewports, make it a floating action button on bottom-left of viewport */
+  .voice-assistant-overlay {
+    pointer-events: none;
+    position: fixed;
+    top: auto;
+    right: auto;
+    bottom: 20px;
+    left: 20px;
+    width: auto;
+    height: auto;
+    display: block;
+    z-index: 99;
+  }
+  
+  .voice-assistant-positioner {
+    position: static;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    display: block;
+  }
+  
+  .voice-assistant-container {
+    position: static;
+    display: flex;
+    flex-direction: row; /* left-to-right: mic button on left, help on right */
+    align-items: center;
+    background: var(--mic-bg);
+    border: var(--mic-border);
+    box-shadow: var(--mic-shadow);
+    padding: 6px 10px;
+    border-radius: 30px;
+    pointer-events: auto;
+    gap: 6px;
+  }
+  
+  .voice-assistant-status-box {
+    width: 110px;
+    min-height: auto;
+    text-align: left;
+    order: 2;
+  }
+
+  .voice-assistant-button {
+    width: 40px;
+    height: 40px;
+    box-shadow: none;
+    background: transparent;
+    border: none;
+    order: 2;
+  }
+
+  .voice-assistant-help-button {
+    width: 32px;
+    height: 32px;
+    box-shadow: none;
+    background: transparent;
+    border: none;
+    order: 1;
+    color: var(--mic-color);
+  }
+  
+  .voice-assistant-button[data-state="listening"] {
+    background: var(--mic-active-bg);
+  }
+  .voice-assistant-button[data-state="speaking"] {
+    background: var(--mic-active-bg);
+  }
+  .voice-assistant-button[data-state="error"] {
+    background: #ef4444 !important;
+  }
+}
+
+/* Desktop Layout Positioning overrides (>= 1024px) */
+@media (min-width: 1024px) {
+  .voice-assistant-overlay {
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+  }
+  
+  .voice-assistant-positioner {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    pointer-events: none !important;
+  }
+  
+  .voice-assistant-container {
+    position: absolute !important;
+    top: 96px !important; /* safely below theme switcher and toolbar headers */
+    left: 48px !important;
+    right: auto !important;
+    bottom: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    background: var(--mic-bg) !important;
+    border: var(--mic-border) !important;
+    box-shadow: var(--mic-shadow) !important;
+    padding: 6px 12px !important;
+    border-radius: 30px !important;
+    pointer-events: auto !important;
+    gap: 8px !important;
+  }
+  
+  .voice-assistant-status-box {
+    width: auto !important;
+    min-width: 110px !important;
+    max-width: 300px !important;
+    text-align: left !important;
+    min-height: auto !important;
+    padding: 0 4px !important;
+    order: 2 !important;
+  }
+
+  .voice-assistant-button {
+    width: 40px !important;
+    height: 40px !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
+    order: 0 !important;
+  }
+
+  .voice-assistant-help-button {
+    width: 32px !important;
+    height: 32px !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
+    order: 1 !important;
+    color: var(--mic-color) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .voice-assistant-button[data-state="listening"] {
+    background: var(--mic-active-bg) !important;
+  }
+  .voice-assistant-button[data-state="speaking"] {
+    background: var(--mic-active-bg) !important;
+  }
+  .voice-assistant-button[data-state="error"] {
+    background: #ef4444 !important;
+  }
+}
+
+/* Reduced Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .voice-assistant-button,
+  .voice-assistant-button[data-state="listening"]::before,
+  .voice-assistant-button[data-state="listening"]::after,
+  .voice-assistant-button[data-state="speaking"] {
+    animation: none !important;
+    transition: none !important;
+  }
+}

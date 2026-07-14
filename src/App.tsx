@@ -12,6 +12,7 @@ import WindowsTheme from './themes/WindowsTheme/WindowsTheme';
 import CyberpunkTheme from './themes/CyberpunkTheme/CyberpunkTheme';
 import AiTheme from './themes/AiTheme/AiTheme';
 import RetroTheme from './themes/RetroTheme/RetroTheme';
+import VoiceAssistant from './components/VoiceAssistant';
 
 import './index.css';
 
@@ -69,7 +70,7 @@ function App() {
   }, [settings.soundEnabled]);
 
 return (
-    <div className="app-container">
+    <div className={`app-container active-theme-${settings.activeTheme}`}>
       <ThemeSwitcher 
         activeTheme={settings.activeTheme} 
         onSelectTheme={settings.changeTheme} 
@@ -105,6 +106,8 @@ return (
         <ThemeWrapper currentTheme="retro" activeTheme={settings.activeTheme}>
           <RetroTheme settings={settings} />
         </ThemeWrapper>
+
+        <VoiceAssistant activeTheme={settings.activeTheme} />
       </div>
 
       {showSettings && (
@@ -155,7 +158,9 @@ function ThemeWrapper({ children, currentTheme, activeTheme }: { children: React
       className={`theme-wrapper ${isVisible ? 'active' : ''}`} 
       style={{ display: shouldRender ? 'block' : 'none' }}
     >
-      {children}
+      <div className="calculator-layout-wrapper">
+        {children}
+      </div>
     </div>
   );
 }

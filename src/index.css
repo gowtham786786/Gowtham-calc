@@ -80,6 +80,193 @@ html.dark body {
   transition-delay: 50ms; /* slight delay for fade in */
 }
 
+/* Active Theme Wallpapers on larger viewports */
+@media (min-width: 768px) {
+  .app-container.active-theme-apple {
+    background: radial-gradient(circle at center, #2c2c2e 0%, #000000 100%) !important;
+  }
+  .app-container.active-theme-glass {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%) !important;
+  }
+  .app-container.active-theme-vscode {
+    background: #181818 !important;
+  }
+  .app-container.active-theme-windows {
+    background: radial-gradient(circle at top right, #0078d4 0%, #111827 100%) !important;
+  }
+  html.dark .app-container.active-theme-windows {
+    background: radial-gradient(circle at top right, #005a9e 0%, #030712 100%) !important;
+  }
+  .app-container.active-theme-cyberpunk {
+    background: #030308 !important;
+  }
+  .app-container.active-theme-ai {
+    background: radial-gradient(circle at center, #161930 0%, #080912 100%) !important;
+  }
+  .app-container.active-theme-retro {
+    background: #756e61 !important;
+  }
+}
+
+/* Tablet Layout Scaling (600px to 1023px) */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .calculator-layout-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  .calculator-layout-wrapper > div {
+    transform: scale(1.08);
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Desktop Full-Viewport Layout Scaling (>= 1024px) */
+@media (min-width: 1024px) {
+  .theme-container {
+    height: calc(100vh - 60px) !important;
+    overflow: hidden;
+  }
+
+  .calculator-layout-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 24px 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Outermost wrapper of the theme e.g. .wrapper */
+  .calculator-layout-wrapper > div {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    min-height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    position: relative !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Target the calculator card container (grandchild, or direct child for WindowsTheme) */
+  .calculator-layout-wrapper div[class*="calculator"],
+  .calculator-layout-wrapper div[class*="window"] {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    min-height: auto !important;
+    border-radius: 20px !important;
+    padding: 24px 32px 32px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Target displays */
+  .calculator-layout-wrapper div[class*="displayContainer"],
+  .calculator-layout-wrapper div[class*="displayArea"],
+  .calculator-layout-wrapper div[class*="screen"] {
+    flex: 0 0 auto !important;
+    height: clamp(90px, 16vh, 160px) !important;
+    min-height: auto !important;
+    padding: 16px 24px 16px 360px !important; /* safe left margin for voice bubble */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Target display text */
+  .calculator-layout-wrapper div[class*="display"],
+  .calculator-layout-wrapper div[class*="value"],
+  .calculator-layout-wrapper div[class*="result"] {
+    font-size: clamp(48px, 9vh, 96px) !important;
+    font-weight: 300 !important;
+    line-height: 1 !important;
+    width: 100% !important;
+    text-align: right !important;
+  }
+
+  /* Target history/equation line in display if present (e.g. WindowsTheme, Retro) */
+  .calculator-layout-wrapper div[class*="equation"],
+  .calculator-layout-wrapper div[class*="formula"] {
+    font-size: clamp(16px, 2.5vh, 24px) !important;
+    opacity: 0.6 !important;
+    margin-bottom: 8px !important;
+    text-align: right !important;
+    width: 100% !important;
+  }
+
+  /* Target keypads */
+  .calculator-layout-wrapper div[class*="keypad"],
+  .calculator-layout-wrapper div[class*="terminal"] {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: stretch !important;
+    gap: 16px !important;
+    margin-top: 0 !important;
+    height: auto !important;
+  }
+
+  /* If scientific keypad is active, layout side-by-side */
+  .calculator-layout-wrapper div[class*="keypad"][class*="scientific"] {
+    display: grid !important;
+    grid-template-columns: 1fr 1.2fr !important;
+    gap: 20px !important;
+  }
+
+  /* Target grid blocks (mainPad, sciPad, keypad) */
+  .calculator-layout-wrapper div[class*="mainPad"],
+  .calculator-layout-wrapper div[class*="sciPad"],
+  .calculator-layout-wrapper div[class*="keypad"]:not([class*="scientific"]) {
+    display: grid !important;
+    grid-auto-rows: 1fr !important; /* equal height rows */
+    gap: 12px !important;
+    height: auto !important;
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+  }
+
+  /* Reset button sizes and remove aspect ratio */
+  .calculator-layout-wrapper button[class*="btn"],
+  .calculator-layout-wrapper button[class*="button"],
+  .calculator-layout-wrapper button[class*="key"] {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    aspect-ratio: auto !important; /* rectangular buttons */
+    border-radius: 12px !important;
+    font-size: clamp(18px, 3vh, 32px) !important; /* responsive font size */
+    padding: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+}
+
 /* Shared UI elements like buttons in settings */
 button {
   cursor: pointer;

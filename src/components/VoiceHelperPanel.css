@@ -1,0 +1,352 @@
+/* Voice Helper Panel Styling - Adaptive Theme Engine */
+
+/* Modal Backdrop Wrapper */
+.voice-helper-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* overlay above everything */
+  animation: helper-fade-in 0.25s ease-out forwards;
+}
+
+/* Modal Content Card */
+.voice-helper-panel {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 440px;
+  height: 80vh;
+  max-height: 620px;
+  border-radius: 28px;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  font-family: var(--helper-font-family, sans-serif);
+  color: var(--helper-text-color, #333333);
+  background: var(--helper-bg, #ffffff);
+  border: var(--helper-border, 1px solid rgba(0, 0, 0, 0.1));
+  box-shadow: var(--helper-shadow, 0 30px 60px rgba(0, 0, 0, 0.25));
+  animation: helper-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Close button style */
+.voice-helper-close-btn {
+  margin-left: auto;
+  padding: 6px;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.voice-helper-close-btn:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+@keyframes helper-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes helper-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Bottom Sheet Layout (< 768px) */
+@media (max-width: 767px) {
+  .voice-helper-backdrop {
+    align-items: flex-end; /* stack to bottom of page */
+  }
+
+  .voice-helper-panel {
+    width: 100%;
+    height: 82vh;
+    max-height: none;
+    border-radius: 28px 28px 0 0;
+    margin: 0;
+    animation: helper-slide-sheet 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+@keyframes helper-slide-sheet {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Theme styling mappings */
+
+/* 1. Apple Theme Colors */
+.voice-helper-theme-apple {
+  --helper-bg: #1c1c1e;
+  --helper-text-color: #ffffff;
+  --helper-border: 1px solid rgba(255, 255, 255, 0.08);
+  --helper-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  --helper-accent: #ff9f0a;
+  --helper-muted: #a1a1a6;
+  --helper-item-bg: rgba(255, 255, 255, 0.05);
+  --helper-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 2. Glassmorphism Theme Colors */
+.voice-helper-theme-glass {
+  --helper-bg: rgba(255, 255, 255, 0.15);
+  --helper-text-color: inherit;
+  --helper-border: 1px solid rgba(255, 255, 255, 0.25);
+  --helper-shadow: 0 32px 64px rgba(0, 0, 0, 0.15);
+  --helper-accent: #ec4899;
+  --helper-muted: inherit;
+  --helper-item-bg: rgba(255, 255, 255, 0.08);
+  --helper-font-family: 'Inter', sans-serif;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+.dark .voice-helper-theme-glass {
+  --helper-bg: rgba(17, 24, 39, 0.4);
+  --helper-border: 1px solid rgba(255, 255, 255, 0.1);
+  --helper-item-bg: rgba(255, 255, 255, 0.04);
+}
+
+/* 3. VS Code Theme Colors */
+.voice-helper-theme-vscode {
+  --helper-bg: #1e1e1e;
+  --helper-text-color: #d4d4d4;
+  --helper-border: 1px solid #3c3c3c;
+  --helper-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  --helper-accent: #569cd6;
+  --helper-muted: #858585;
+  --helper-item-bg: #2d2d2d;
+  --helper-font-family: 'JetBrains Mono', Consolas, monospace;
+}
+.voice-helper-theme-vscode .voice-helper-quote {
+  color: #ce9178;
+}
+.voice-helper-theme-vscode .voice-helper-text {
+  color: #ce9178;
+}
+.voice-helper-theme-vscode .voice-helper-result {
+  color: #4fc1ff;
+}
+
+/* 4. Windows 11 Theme Colors */
+.voice-helper-theme-windows {
+  --helper-bg: rgba(243, 243, 243, 0.85);
+  --helper-text-color: #202020;
+  --helper-border: 1px solid rgba(0, 0, 0, 0.08);
+  --helper-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+  --helper-accent: #0067b8;
+  --helper-muted: #606060;
+  --helper-item-bg: rgba(255, 255, 255, 0.6);
+  --helper-font-family: "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  backdrop-filter: blur(30px);
+}
+.dark .voice-helper-theme-windows {
+  --helper-bg: rgba(32, 32, 32, 0.85);
+  --helper-text-color: #ffffff;
+  --helper-border: 1px solid rgba(255, 255, 255, 0.08);
+  --helper-item-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* 5. Cyberpunk Theme Colors */
+.voice-helper-theme-cyberpunk {
+  --helper-bg: rgba(5, 5, 16, 0.9);
+  --helper-text-color: #00ffff;
+  --helper-border: 1px solid #ff00ff;
+  --helper-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+  --helper-accent: #ff00ff;
+  --helper-muted: #00ffff;
+  --helper-item-bg: rgba(0, 255, 255, 0.05);
+  --helper-font-family: 'Orbitron', sans-serif;
+}
+.voice-helper-theme-cyberpunk .voice-helper-item {
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  text-transform: uppercase;
+}
+.voice-helper-theme-cyberpunk .voice-helper-item:hover {
+  border-color: #ff00ff;
+  box-shadow: 0 0 8px rgba(255, 0, 255, 0.3);
+}
+
+/* 6. AI Smart Theme Colors */
+.voice-helper-theme-ai {
+  --helper-bg: rgba(15, 17, 30, 0.7);
+  --helper-text-color: #ffffff;
+  --helper-border: 1px solid rgba(255, 255, 255, 0.06);
+  --helper-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --helper-accent: #6366f1;
+  --helper-muted: #a5b4fc;
+  --helper-item-bg: rgba(255, 255, 255, 0.03);
+  --helper-font-family: 'Inter', system-ui, sans-serif;
+  backdrop-filter: blur(40px);
+}
+
+/* 7. Retro Classic Theme Colors */
+.voice-helper-theme-retro {
+  --helper-bg: #dfd8cd;
+  --helper-text-color: #333333;
+  --helper-border: 2px solid #b5afa3;
+  --helper-shadow: 6px 6px 0px rgba(0, 0, 0, 0.2);
+  --helper-accent: #4a6b5d;
+  --helper-muted: #4b5563;
+  --helper-item-bg: #e6e0d5;
+  --helper-font-family: 'Courier New', Courier, monospace;
+}
+.voice-helper-theme-retro .voice-helper-item {
+  border: 1px dashed #b5afa3;
+}
+
+
+/* Layout Typography & Component Styling */
+
+.voice-helper-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  border-bottom: var(--helper-border);
+  padding-bottom: 12px;
+}
+
+.voice-helper-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.voice-helper-header-icon {
+  color: var(--helper-accent);
+}
+
+.voice-helper-instruction {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--helper-item-bg);
+  margin-bottom: 20px;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--helper-muted);
+}
+
+.voice-helper-mic-indicator {
+  color: var(--helper-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.voice-helper-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.voice-helper-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.voice-helper-group-title {
+  margin: 0;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--helper-accent);
+  font-weight: 600;
+}
+
+.voice-helper-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.voice-helper-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--helper-item-bg);
+  transition: all 0.2s ease;
+}
+
+.voice-helper-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.voice-helper-spoken {
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.voice-helper-quote {
+  color: var(--helper-accent);
+  font-weight: 700;
+}
+
+.voice-helper-text {
+  font-style: italic;
+}
+
+.voice-helper-mapping {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--helper-muted);
+}
+
+.voice-helper-arrow {
+  color: var(--helper-accent);
+  opacity: 0.7;
+}
+
+.voice-helper-result {
+  font-weight: 600;
+}
+
+/* Custom Scrollbar */
+.voice-helper-panel::-webkit-scrollbar {
+  width: 4px;
+}
+.voice-helper-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.voice-helper-panel::-webkit-scrollbar-thumb {
+  background: var(--helper-border);
+  border-radius: 2px;
+}

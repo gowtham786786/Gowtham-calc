@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, Trash2 } from 'lucide-react';
 import type { HistoryEntry } from '../hooks/useCalculator';
 import styles from './Panel.module.css';
@@ -10,6 +10,18 @@ interface HistoryPanelProps {
 }
 
 const HistoryPanel: React.FC<HistoryPanelProps> = ({ history, onClear, onClose }) => {
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('historyToggle', { detail: true }));
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.dispatchEvent(new CustomEvent('historyToggle', { detail: false }));
+    };
+  }, []); // Remove onClose to prevent spurious cleanup on re-renders
+
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.panel} onClick={e => e.stopPropagation()}>

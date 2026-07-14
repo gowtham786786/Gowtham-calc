@@ -1,16 +1,18 @@
 .window {
   background-color: #1e1e1e;
   width: 100%;
-  max-width: 600px;
-  height: 80vh;
-  max-height: 600px;
+  max-width: 800px;
+  height: 100%;
+  max-height: calc(100vh - 32px);
+  border: 1px solid #3c3c3c;
   border-radius: 8px;
   box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 1px #333;
   display: flex;
   flex-direction: column;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Consolas', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
   color: #cccccc;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .titlebar {
@@ -64,6 +66,7 @@
 .layout {
   display: flex;
   flex: 1;
+  min-height: 0;
   overflow: hidden;
 }
 
@@ -90,6 +93,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  background-color: #1e1e1e;
+  min-height: 0;
   overflow: hidden;
 }
 
@@ -127,9 +132,17 @@
   font-size: 14px;
   line-height: 1.5;
   background-color: #1e1e1e;
-  flex: 1;
+  flex: 0 0 30%;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.displayArea {
+  display: flex;
+  flex: 1;
+  min-height: 0;
 }
 
 .displayContent {
@@ -139,7 +152,6 @@
   justify-content: center;
   align-items: flex-end;
   padding-right: 16px;
-  overflow: hidden;
   max-width: 100%;
 }
 
@@ -161,16 +173,22 @@
 .variable { color: #9cdcfe; } /* result, equation */
 .operator { color: #d4d4d4; } /* = */
 .string { color: #ce9178; } /* "2+2" */
-.number { color: #b5cea8; } /* 4 */
+.number { 
+  color: #b5cea8; 
+  line-height: 1.2;
+  padding-bottom: 4px;
+}
 .punctuation { color: #cccccc; } /* ; */
 .comment { color: #6a9955; } /* // comment */
 
 .terminal {
+  border-top: 1px solid #3c3c3c;
   background-color: #1e1e1e;
-  border-top: 1px solid #454545;
-  height: 55%;
+  padding: 8px;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 .termHeader {
@@ -191,7 +209,8 @@
 .keypadWrapper {
   flex: 1;
   padding: 12px;
-  overflow-y: auto;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .keypad {
@@ -204,6 +223,7 @@
   flex: 1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
   gap: 6px;
 }
 
@@ -211,52 +231,61 @@
   flex: 2;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
   gap: 8px;
 }
 
 .btn {
-  background-color: #333333;
+  background-color: #2d2d2d;
   color: #cccccc;
   border: 1px solid #3c3c3c;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.1s;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   font-family: inherit;
-  font-size: 13px;
+  font-size: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .btn:hover {
-  background-color: #444444;
+  background-color: #3d3d3d;
+  border-color: #4a4a4a;
+  transform: translateY(-1px);
 }
 
 .btn:active {
-  background-color: #2a2d2e;
+  background-color: #1e1e1e;
+  transform: scale(0.95);
 }
 
 /* Button syntax coloring */
 .btnNum {
-  color: #b5cea8;
-  font-size: 15px;
+  color: #4fc1ff; /* light blue */
+  font-size: 16px;
 }
 
 .btnOp {
-  color: #569cd6;
-  font-size: 15px;
+  color: #c586c0; /* purple/pink */
+  font-size: 16px;
 }
 
 .btnKeyword {
-  color: #c586c0; /* purple like control flow */
+  color: #dcdcaa; /* yellow-ish */
 }
 
 .btnFunc {
-  color: #dcdcaa; /* yellow-ish like function call */
+  color: #ce9178; /* orange/string color */
 }
 
 .btnVar {
-  color: #4fc1ff; /* light blue */
+  color: #569cd6; /* classic blue */
 }
 
 .btnRun {
@@ -266,4 +295,12 @@
 }
 .btnRun:hover {
   background-color: #1177bb;
+}
+
+.calculator:has(.sciPad) .btn {
+  font-size: 12px;
+}
+.calculator:has(.sciPad) .btnNum,
+.calculator:has(.sciPad) .btnOp {
+  font-size: 14px;
 }

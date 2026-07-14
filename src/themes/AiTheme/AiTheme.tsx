@@ -29,6 +29,8 @@ const AiTheme: React.FC<ThemeProps> = () => {
   } = calc;
 
   const [suggestion, setSuggestion] = useState(SUGGESTIONS[0]);
+  
+  const isIdle = displayValue === '0' && !equation;
 
   // Cycle suggestions
   useEffect(() => {
@@ -74,6 +76,7 @@ const AiTheme: React.FC<ThemeProps> = () => {
 
         <div className={styles.displayArea} ref={containerRef}>
           <div className={styles.equation}>{equation}</div>
+          
           <div 
             className={styles.display} 
             ref={textRef}
@@ -82,38 +85,38 @@ const AiTheme: React.FC<ThemeProps> = () => {
             {renderedValue}
           </div>
           
-          <div className={styles.suggestionLine}>
+          <div className={`${styles.suggestionLine} ${!isIdle ? styles.suggestionHidden : ''}`}>
             <Sparkles size={12} className={styles.sparkleIcon} />
             <span className={styles.suggestionText}>{suggestion}</span>
           </div>
         </div>
 
-        <div className={styles.keypad}>
-          {isScientific && (
-            <div className={styles.sciPad}>
-              <button className={styles.btnSci} onClick={() => handleAction('sin(')}>sin</button>
-              <button className={styles.btnSci} onClick={() => handleAction('cos(')}>cos</button>
-              <button className={styles.btnSci} onClick={() => handleAction('tan(')}>tan</button>
-              <button className={styles.btnSci} onClick={() => handleAction('log(')}>log</button>
-              
-              <button className={styles.btnSci} onClick={() => handleAction('x²')}>x²</button>
-              <button className={styles.btnSci} onClick={() => handleOperator('^')}>xʸ</button>
-              <button className={styles.btnSci} onClick={() => handleAction('!')}>x!</button>
-              <button className={styles.btnSci} onClick={() => handleAction('ln(')}>ln</button>
-              
-              <button className={styles.btnSci} onClick={() => handleAction('√(')}>√</button>
-              <button className={styles.btnSci} onClick={() => handleAction('π')}>π</button>
-              <button className={styles.btnSci} onClick={() => handleAction('e')}>e</button>
-              <button className={styles.btnSci} onClick={() => handleAction('(')}>(</button>
-              
-              <button className={styles.btnSci} onClick={() => handleAction(')')}>)</button>
-              <button className={styles.btnSci} onClick={() => handleAction('MC')}>mc</button>
-              <button className={styles.btnSci} onClick={() => handleAction('MR')}>mr</button>
-              <button className={styles.btnSci} onClick={() => handleAction('M+')}>m+</button>
-            </div>
-          )}
-
+        <div className={`${styles.keypad} ${isScientific ? styles.scientific : ''}`}>
           <div className={styles.mainPad}>
+            {isScientific && (
+              <>
+                <button className={styles.btnSci} onClick={() => handleAction('sin(')}>sin</button>
+                <button className={styles.btnSci} onClick={() => handleAction('cos(')}>cos</button>
+                <button className={styles.btnSci} onClick={() => handleAction('tan(')}>tan</button>
+                <button className={styles.btnSci} onClick={() => handleAction('log(')}>log</button>
+                
+                <button className={styles.btnSci} onClick={() => handleAction('x²')}>x²</button>
+                <button className={styles.btnSci} onClick={() => handleOperator('^')}>xʸ</button>
+                <button className={styles.btnSci} onClick={() => handleAction('!')}>x!</button>
+                <button className={styles.btnSci} onClick={() => handleAction('ln(')}>ln</button>
+                
+                <button className={styles.btnSci} onClick={() => handleAction('√(')}>√</button>
+                <button className={styles.btnSci} onClick={() => handleAction('π')}>π</button>
+                <button className={styles.btnSci} onClick={() => handleAction('e')}>e</button>
+                <button className={styles.btnSci} onClick={() => handleAction('(')}>(</button>
+                
+                <button className={styles.btnSci} onClick={() => handleAction(')')}>)</button>
+                <button className={styles.btnSci} onClick={() => handleAction('MC')}>mc</button>
+                <button className={styles.btnSci} onClick={() => handleAction('MR')}>mr</button>
+                <button className={styles.btnSci} onClick={() => handleAction('M+')}>m+</button>
+              </>
+            )}
+
             <button className={`${styles.btn} ${styles.btnLight}`} onClick={() => handleAction('AC')}>AC</button>
             <button className={`${styles.btn} ${styles.btnLight}`} onClick={() => handleAction('±')}>±</button>
             <button className={`${styles.btn} ${styles.btnLight}`} onClick={() => handleAction('%')}>%</button>

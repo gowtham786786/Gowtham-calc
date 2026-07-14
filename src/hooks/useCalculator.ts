@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export type HistoryEntry = {
   id: string;
@@ -82,7 +82,7 @@ export function useCalculator(themeId: string = 'default') {
       if (numStr === '.' && displayValue.includes('.')) return;
       setDisplayValue(displayValue === '0' && numStr !== '.' ? numStr : displayValue + numStr);
     }
-  }, [displayValue, newNumber, hasError]);
+  }, [displayValue, newNumber, hasError, themeId]);
 
   const handleOperator = useCallback((op: string) => {
     if (hasError) return;
@@ -98,7 +98,7 @@ export function useCalculator(themeId: string = 'default') {
 
     setEquation([...equation, displayValue, op]);
     setNewNumber(true);
-  }, [displayValue, newNumber, equation, hasError]);
+  }, [displayValue, newNumber, equation, hasError, themeId]);
 
   const calculate = useCallback(() => {
     if (hasError) return;
@@ -136,7 +136,7 @@ export function useCalculator(themeId: string = 'default') {
         .replace(/e/g, 'Math.E')
         .replace(/mod/g, '%')
         .replace(/Rand/g, 'Math.random()')
-        .replace(/10ˣ/g, '10**')
+        .replace(/10\^/g, '10**')
         .replace(/1\/x/g, '1/')
         .replace(/x³/g, '**3');
 
@@ -175,7 +175,111 @@ export function useCalculator(themeId: string = 'default') {
       setEquation([]);
       setNewNumber(true);
     }
-  }, [equation, displayValue, newNumber, hasError, history]);
+  }, [equation, displayValue, newNumber, hasError, history, themeId]);
+
+  const handleSequence = useCallback((tokens: string[]) => {
+    if (hasError || tokens.length === 0) return;
+    
+    let currentEq = [...equation];
+    let currentDisp = displayValue;
+    let isNewNum = newNumber;
+    
+    for (const token of tokens) {
+      if (/[0-9.]/.test(token) || ['π', 'e'].includes(token)) {
+        if (isNewNum) {
+          currentDisp = token === '.' ? '0.' : token;
+          isNewNum = false;
+        } else {
+          if (token === '.' && currentDisp.includes('.')) continue;
+          currentDisp = currentDisp === '0' && token !== '.' ? token : currentDisp + token;
+        }
+      } else if (['+', '-', '×', '÷', '^', '%', '√('].includes(token)) {
+        if (isNewNum && currentEq.length > 0) {
+          const lastToken = currentEq[currentEq.length - 1];
+          if (['+', '-', '×', '÷', '^'].includes(lastToken)) {
+            currentEq = [...currentEq.slice(0, -1), token];
+            continue;
+          }
+        }
+        currentEq = [...currentEq, currentDisp, token];
+        isNewNum = true;
+      } else if (token === '!') {
+        currentEq = [...currentEq, currentDisp, '!'];
+        isNewNum = true;
+      }
+    }
+    
+    let exprTokens = [...currentEq];
+    if (!isNewNum) {
+      exprTokens.push(currentDisp);
+    }
+
+    if (exprTokens.length === 0) return;
+
+    try {
+      let exprStr = exprTokens.join(' ')
+        .replace(/×/g, '*')
+        .replace(/÷/g, '/')
+        .replace(/\^/g, '**');
+
+      exprStr = exprStr.replace(/(\d+)!/g, (_match, p1) => {
+        let n = parseInt(p1);
+        if (n < 0) return 'NaN';
+        let res = 1;
+        for (let i = 2; i <= n; i++) res *= i;
+        return res.toString();
+      });
+      
+      exprStr = exprStr.replace(/sin\(/g, 'Math.sin(')
+        .replace(/cos\(/g, 'Math.cos(')
+        .replace(/tan\(/g, 'Math.tan(')
+        .replace(/log\(/g, 'Math.log10(')
+        .replace(/ln\(/g, 'Math.log(')
+        .replace(/√\(/g, 'Math.sqrt(')
+        .replace(/π/g, 'Math.PI')
+        .replace(/e/g, 'Math.E')
+        .replace(/mod/g, '%')
+        .replace(/Rand/g, 'Math.random()')
+        .replace(/10\^/g, '10**')
+        .replace(/1\/x/g, '1/')
+        .replace(/x³/g, '**3');
+
+      const openParen = (exprStr.match(/\(/g) || []).length;
+      const closeParen = (exprStr.match(/\)/g) || []).length;
+      if (openParen > closeParen) {
+        exprStr += ')'.repeat(openParen - closeParen);
+      }
+
+      const result = new Function('return ' + exprStr)();
+
+      if (!isFinite(result) || isNaN(result)) {
+        throw new Error('Invalid calculation');
+      }
+
+      let resultStr = parseFloat(result.toFixed(10)).toString();
+      
+      const newEntry = {
+        id: crypto.randomUUID(),
+        equation: exprTokens.join(' ') + ' =',
+        result: resultStr,
+        theme: themeId,
+        timestamp: Date.now()
+      };
+      
+      setDisplayValue(resultStr);
+      setEquation([]);
+      setNewNumber(true);
+      saveHistory([newEntry, ...history]);
+      
+      return resultStr;
+    } catch (e) {
+      setDisplayValue('Error');
+      setHasError(true);
+      setEquation([]);
+      setNewNumber(true);
+      return 'Error';
+    }
+  }, [equation, displayValue, newNumber, hasError, history, themeId]);
 
   const handleAction = useCallback((action: string) => {
     switch (action) {
@@ -292,6 +396,48 @@ export function useCalculator(themeId: string = 'default') {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNumber, handleOperator, handleAction]);
 
+  const adapterRef = useRef<any>(null);
+  useEffect(() => {
+    adapterRef.current = {
+      onInput: (value: string) => {
+        if (/[0-9.]/.test(value)) {
+          handleNumber(value);
+        } else if (['+', '-', '*', '/', '×', '÷', '^'].includes(value)) {
+          const op = value === '*' ? '×' : value === '/' ? '÷' : value;
+          handleOperator(op);
+        } else {
+          handleAction(value);
+        }
+      },
+      onClear: () => handleAction('AC'),
+      onBackspace: () => handleAction('Backspace'),
+      onEquals: () => handleAction('='),
+      onSequence: (tokens: string[]) => handleSequence(tokens),
+      getDisplayValue: () => displayValue,
+    };
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (!(window as any).__calc_adapters) {
+        (window as any).__calc_adapters = {};
+      }
+      (window as any).__calc_adapters[themeId] = {
+        onInput: (value: string) => adapterRef.current?.onInput(value),
+        onClear: () => adapterRef.current?.onClear(),
+        onBackspace: () => adapterRef.current?.onBackspace(),
+        onEquals: () => adapterRef.current?.onEquals(),
+        onSequence: (tokens: string[]) => adapterRef.current?.onSequence(tokens),
+        getDisplayValue: () => adapterRef.current?.getDisplayValue() || '0',
+      };
+      return () => {
+        if ((window as any).__calc_adapters) {
+          delete (window as any).__calc_adapters[themeId];
+        }
+      };
+    }
+  }, [themeId]);
+
   return {
     displayValue,
     equation: equation.join(' '),
@@ -302,6 +448,7 @@ export function useCalculator(themeId: string = 'default') {
     handleNumber,
     handleOperator,
     handleAction,
+    handleSequence,
     clearHistory,
     loadResult
   };

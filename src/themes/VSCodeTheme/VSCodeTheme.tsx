@@ -102,6 +102,7 @@ const VSCodeTheme: React.FC<ThemeProps> = () => {
                     <button className={`${styles.btn} ${styles.btnVar}`} onClick={() => handleAction('√(')}>sqrt()</button>
                     <button className={`${styles.btn} ${styles.btnVar}`} onClick={() => handleAction('MC')}>MC</button>
                     <button className={`${styles.btn} ${styles.btnVar}`} onClick={() => handleAction('MR')}>MR</button>
+                    <button className={`${styles.btn} ${styles.btnVar}`} onClick={() => handleAction('M+')}>M+</button>
                   </div>
                 )}
 
