@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import type { HistoryEntry } from '../../hooks/useCalculator';
 import styles from './AiHistory.module.css';
-import { X, Trash2, BrainCircuit } from 'lucide-react';
+import { X, Trash2 } from 'lucide-react';
 
 interface AiHistoryProps {
   history: HistoryEntry[];
